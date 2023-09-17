@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "en-front-back/bin/Release/net7.0/publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/9f770695-a481-4656-a36a-444f4c730dd1/resourceGroups/redes_m/providers/Microsoft.Web/sites/en-front-back"
+}
