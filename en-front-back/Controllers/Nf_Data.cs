@@ -24,7 +24,7 @@ public class Nf_DataController : ControllerBase
         {
             ContentType = "text/html",
             StatusCode = (int)HttpStatusCode.OK,
-            Content = "<html><body>Front Back Ensamble 1.0 </body></html>"
+            Content = "<html><body>Front Back Ensamble 1.0.1 </body></html>"
         };
 
     }
