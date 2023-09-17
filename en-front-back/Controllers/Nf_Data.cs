@@ -24,7 +24,7 @@ public class Nf_DataController : ControllerBase
         {
             ContentType = "text/html",
             StatusCode = (int)HttpStatusCode.OK,
-            Content = "<html><body>Front Back Ensamble 1.0.1 </body></html>"
+            Content = "<html><body>Front Back Ensamble 1.0.2 </body></html>"
         };
 
     }
@@ -32,7 +32,7 @@ public class Nf_DataController : ControllerBase
     [Route("/api/Nf_Data/ExecuteForCRUD")]
     public IActionResult ExecuteForCRUD()
     {
-        RespondResult rr = new RespondResult();
+        //RespondResult rr = new RespondResult();
         var formData = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
 
         if (formData["ClassName"] is not null)
@@ -51,17 +51,12 @@ public class Nf_DataController : ControllerBase
             postString += key + "=" + formData[key] + "&";
         }
 
-
-
-
         string serverName = "http://backo.globaltoons.tv:3002";
         string endPoint = serverName + "/api/Nf_Data/ExecuteForCRUD";
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
         request.Method = "POST";
         request.ContentType = "application/x-www-form-urlencoded";
         request.Method = "POST";
-
-
 
         byte[] bytes = Encoding.UTF8.GetBytes(postString);
         using (Stream requestStream = request.GetRequestStream())
