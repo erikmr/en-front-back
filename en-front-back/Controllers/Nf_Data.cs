@@ -35,11 +35,23 @@ public class Nf_DataController : ControllerBase
         RespondResult rr = new RespondResult();
         var formData = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
 
-        string postString = "";
-        foreach (string key in Request.Form.Keys)
+        if (formData["ClassName"] is not null)
         {
-            postString += key + "=" + Request.Form[key] + "&";
+            string className = formData["ClassName"].ToString();
+            if (className.ToUpper().IndexOf("RM_") == 0)
+            {
+                formData.Add("db", "Prometeo_Redes");
+                formData.Add("ShowDataModel", "false");
+                formData.Add("ShowDataTable", "false");
+            }
         }
+        string postString = "";
+        foreach (string key in formData.Keys)
+        {
+            postString += key + "=" + formData[key] + "&";
+        }
+
+
 
 
         string serverName = "http://backo.globaltoons.tv:3002";
