@@ -3,9 +3,9 @@ using System.Data;
 using System.Collections.Generic;
 namespace nf.classLibrary
 {
-	public class RespondResult
-	{
-		public RespondResult()
+	public class ResponseResult
+    {
+		public ResponseResult()
 		{
 		}
         public bool success { get; set; }

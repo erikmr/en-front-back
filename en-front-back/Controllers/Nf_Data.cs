@@ -16,6 +16,7 @@ public class Nf_DataController : ControllerBase
     public Nf_DataController()
     {
     }
+
     [HttpGet(Name = "Index")]
     [Route("/")]
     public ContentResult Index()
@@ -28,11 +29,11 @@ public class Nf_DataController : ControllerBase
         };
 
     }
+
     [HttpPost(Name = "ExecuteForCRUD")]
     [Route("/api/Nf_Data/ExecuteForCRUD")]
     public IActionResult ExecuteForCRUD()
     {
-        //RespondResult rr = new RespondResult();
         var formData = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
 
         if (formData["ClassName"] is not null)
@@ -51,12 +52,29 @@ public class Nf_DataController : ControllerBase
             postString += key + "=" + formData[key] + "&";
         }
 
-        string serverName = "http://backo.globaltoons.tv:3002";
-        string endPoint = serverName + "/api/Nf_Data/ExecuteForCRUD";
+        var json = Data.ExecuteForCrud(postString);
+        return Content(json, "application/json");
+
+    }
+
+    [HttpPost(Name = "confirma_vacuna")]
+    [Route("/vi/confirma_vacuna")]
+    public IActionResult ConfirmaVacuna()
+    {
+        //RespondResult rr = new RespondResult();
+        var formData = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
+        string registro = formData["registro"].ToString();
+
+        string postString = "{\"registro\":\"" + registro + "\"}";
+        //foreach (string key in formData.Keys)
+        //{
+        //    postString += key + "=" + formData[key] + "&";
+        //}s
+
+        string endPoint = "https://py.kcapis.net/confirma_vacuna";
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
         request.Method = "POST";
-        request.ContentType = "application/x-www-form-urlencoded";
-        request.Method = "POST";
+        request.ContentType = "application/json";
 
         byte[] bytes = Encoding.UTF8.GetBytes(postString);
         using (Stream requestStream = request.GetRequestStream())
@@ -71,18 +89,31 @@ public class Nf_DataController : ControllerBase
             json = new StreamReader(responseStream).ReadToEnd();
         }
 
-        //return JsonConvert.DeserializeObject<RespondResult>(json);
+        var responseResend =  JsonConvert.DeserializeObject<ResponseResend>(json);
+
+        postString = "registro=" + registro + "&";
+        postString += "ResendId=" + responseResend?.id + "&";
+        postString += "ClassName=VI_ResendId&";
+        postString += "Action=Update&";
+        postString += "db=Prometeo_Redes";
+
+
+        var jsonResponse = Data.ExecuteForCrud(postString);
         return Content(json, "application/json");
 
     }
+
     [HttpPost(Name = "GetCombo")]
     [Route("/api/Nf_Data/GetCombo")]
-    public RespondResult GetCombo()
+    public ResponseResult GetCombo()
     {
-        RespondResult rr = new RespondResult();
+        ResponseResult rr = new ResponseResult();
 
         return rr;
 
     }
+
+    
+
 }
 
